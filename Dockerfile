@@ -2,7 +2,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /app
 
-# Copy solution and project files
+# Copy the solution and project files
 COPY *.sln .
 COPY MyPortfolio/*.csproj ./MyPortfolio/
 

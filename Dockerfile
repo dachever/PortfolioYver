@@ -2,18 +2,20 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /app
 
-# Copy solution and project files
+# Copy the solution file
 COPY MyPortfolio.sln ./
-COPY MyPortfolio.csproj ./
+
+# Copy the project file
+COPY MyPortfolio/MyPortfolio.csproj ./MyPortfolio/
 
 # Restore dependencies
-RUN dotnet restore MyPortfolio.csproj
+RUN dotnet restore MyPortfolio/MyPortfolio.csproj
 
-# Copy the rest of the project files
+# Copy the rest of the project
 COPY . ./
 
 # Build and publish
-RUN dotnet publish MyPortfolio.csproj -c Release -o out
+RUN dotnet publish MyPortfolio/MyPortfolio.csproj -c Release -o out
 
 # Stage 2: Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:7.0

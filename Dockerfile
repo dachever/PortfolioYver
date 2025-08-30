@@ -2,13 +2,13 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy only the csproj first (better for caching restores)
-COPY MyPortfolio.csproj ./
-RUN dotnet restore MyPortfolio.csproj
+# Copy all csproj files (avoids filename/case issues)
+COPY *.csproj ./
+RUN dotnet restore
 
 # Copy everything else and publish
 COPY . ./
-RUN dotnet publish MyPortfolio.csproj -c Release -o /app/publish
+RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
 
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
